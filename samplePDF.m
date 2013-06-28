@@ -1,19 +1,19 @@
-function [x y] = samplePDF(pdf, d1, d2N, N)
+function [x y] = sample(pdf, d1, d2N, N)
 
 if nargin == 3
     if nargout <= 1
-        x = samplingPDF_withoutOOP(pdf,d1,d2N);
+        x = sample_withoutOOP(pdf,d1,d2N);
     else
-       error('samplePDF:univararg', 'Only one vector is returned for univariate distributions'); 
+       error('sample:univararg', 'Only one vector is returned for univariate distributions'); 
     end
 else
-    [x y] = samplingPDF_2D(pdf, [d1 d2N], N);
+    [x y] = sample_2D(pdf, [d1 d2N], N);
 end
 
 end
 
 
-function x = samplingPDF_withoutOOP(pdf, domain, N)
+function x = sample_withoutOOP(pdf, domain, N)
 
 %% Inverse transform sampling using Chebyshev technology without OOP
 % June 2013
