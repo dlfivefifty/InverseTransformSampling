@@ -10,6 +10,17 @@ mapy = @(t) (domain(4)-domain(3)).*(t+1)./2 + domain(3);
 f = @(x,y) pdf(mapx(x),mapy(y));
 f = chebfun2(f);
 
+% Is the pdf of rank-1?
+if ( numel( pivots(f) ) == 1 ) 
+    C = chebfun(f.fun2.C);% we can forget about the scaling. 
+    R = f.fun2.R;
+    R = chebfun(R.').';   % we can forget about the scaling. 
+    y = mapy( sample(C, [-1,1], N) ); 
+    x = mapx( sample(R, [-1,1], N) );
+    return;
+end
+
+
 mypdf = f./sum2(f);
 g = cumsum2(mypdf);
 

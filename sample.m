@@ -18,8 +18,8 @@ function x = sample_withoutOOP(pdf, domain, N)
 %% Inverse transform sampling using Chebyshev technology without OOP
 % June 2013
 %N = 500;
-global evals
-evals = 1; 
+%global evals
+%evals = 1; 
 % scl = 10000;  % manually scale for now.
 % probability density function.
 %sigma = 1/sqrt(20000); domain = [-10 10];
@@ -116,8 +116,8 @@ end
 end
 
 function vals = Clenshaw_evaluate(c,x)
-global evals
-evals = evals + 1; 
+%global evals
+%evals = evals + 1; 
 bk1 = zeros(size(x));
 bk2 = bk1;
 x = 2*x;
