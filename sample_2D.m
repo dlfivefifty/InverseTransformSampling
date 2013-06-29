@@ -1,5 +1,5 @@
-%function varargout = samplingPDF_2D(op,domain,N)
-function [x,y] = samplingPDF_2D(pdf, domain, N)
+%function varargout = sample_2D(op,domain,N)
+function [x,y] = sample_2D(pdf, domain, N)
 
 % N = 10000;
 % domain = [-8 8 -8 8];
