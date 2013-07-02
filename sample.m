@@ -72,7 +72,8 @@ c = cdf;
 
 % bisection method
 a = -ones(N,1); b = ones(N,1);
-while norm(b-a,inf) > 1e-14
+% while norm(b-a,inf) > eps
+for iter = 1:(-log2(eps)+1)
     vals = Clenshaw_evaluate(c,(a+b)/2);
     I1 = ((vals-r)<=-1e-14); I2 = ((vals-r)>=1e-14); I3 = ~I1 & ~I2;
     a = I1.*(a+b)/2 + I2.*a + I3.*(a+b)/2;
