@@ -50,11 +50,13 @@ for j = 1:length(Battery)
         contour(g,.01:.1:max2(g)), hold on, 
         plot(X,Y,'.','markersize',6),
         axis([dom1 dom2])
+        pause(.3)
     else
         X = sample(f,dom1,100);
         g = chebfun(f,dom1); 
         plot(g), hold on, plot(X,0*X,'.')
         xlim([dom1])
+        pause(1)
     end
-    pause(.3), hold off
+    hold off
 end
