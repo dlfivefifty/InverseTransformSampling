@@ -1,9 +1,9 @@
 InverseTransformSampling
 ========================
 
-Matlab implementation of inverse transform sampling in 1D and 2D.  2D requires current version of chebfun2:
+Matlab implementation of inverse transform sampling in 1D and 2D.  This requires version 5.0 (or above) of chebfun2:
 
-		http://www2.maths.ox.ac.uk/chebfun/nightly/
+		http://www.chebfun.org/download/
 		
 		
 ========================
