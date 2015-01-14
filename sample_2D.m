@@ -1,10 +1,5 @@
-%function varargout = sample_2D(op,domain,N)
 function [x,y] = sample_2D(pdf, domain, N)
 
-% N = 10000;
-% domain = [-8 8 -8 8];
-% pdf = @(x,y) exp(-x.^2 - y.^2).*(x-y).^2;
-% pdf = @(x,y) exp(-x.^2 - 2*y.^2).*sech(x.*y);
 mapx = @(t) (domain(2)-domain(1)).*(t+1)./2 + domain(1);
 mapy = @(t) (domain(4)-domain(3)).*(t+1)./2 + domain(3);
 f = @(x,y) pdf(mapx(x),mapy(y));
@@ -12,9 +7,8 @@ f = chebfun2(f);
 
 % Is the pdf of rank-1?
 if ( numel( pivots(f) ) == 1 ) 
-    C = chebfun(f.fun2.C);% we can forget about the scaling. 
-    R = f.fun2.R;
-    R = chebfun(R.').';   % we can forget about the scaling. 
+    C = f.cols; 
+    R = f.rows;
     y = mapy( sample(C, [-1,1], N) ); 
     x = mapx( sample(R, [-1,1], N) );
     return;
@@ -24,7 +18,7 @@ end
 mypdf = f./sum2(f);
 g = cumsum2(mypdf);
 
-[A1,A2,A3] = chebpolyval2(g);
+[A1,A2,A3] = chebpolyval2(g); A3 = A3.';
 Xx = A1*A2*A3(:,end);
 Xy = A1(end,:)*A2*A3;
 % X = CC*diag(1./g.U)*RR(end,:).';
@@ -53,16 +47,16 @@ f = chebfun2(f);
 mypdf = f./sum2(f);
 
 margx = sum(mypdf, 1);               % marginal pdf of X
-c = margx.coeffs; c = c(end:-1:1);
+c = margx.coeffs; %c = c(end:-1:1);
 x = generate_random_samples(c, [-1 1], N);
 
-R = mypdf.fun2.R; C = mypdf.fun2.C; U = mypdf.fun2.U;
-R = chebfun(R.').';
+R = mypdf.rows; C = mypdf.cols; U = mypdf.pivotValues;
 % Slice = R(:, x);
-Slice = feval(R, x);
-if min(size(Slice)) == 1 && N>1
-    Slice = Slice(:).';
-end
+Slice = feval(R, x).';
+C = C.values; 
+% if min(size(Slice)) == 1 && N>1
+%     Slice = Slice(:).';
+% end
 cheb_slices = C*diag(1./U)*Slice;
 cheb_slices_coeffs = chebfft(cheb_slices);
 sum_slices = sum_unit_interval(cheb_slices_coeffs);
@@ -134,7 +128,7 @@ cout(n+1,:) = v*cout;                         % compute C_0
 end
 
 function cout = simple_cumsum(Y)
-Y = Y(end:-1:1);
+Y = Y(:); Y = Y(end:-1:1);
 n = length(Y);
 c = [0;0;Y];                                  % obtain Cheb coeffs {c_r}
 cout = zeros(n-1,1);                          % initialize vector {C_r}

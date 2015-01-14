@@ -45,7 +45,7 @@ for j = 1:length(Battery)
     dom1 = domx_array{j}; 
     dom2 = domy_array{j}; 
     if ~isempty(dom2)
-        [X Y] = sample(f,dom1,dom2,1000);
+        [X,Y] = sample(f,dom1,dom2,1000);
         g = chebfun2(f,[dom1 dom2]);
         contour(g,.01:.1:max2(g)), hold on, 
         plot(X,Y,'.','markersize',6),
